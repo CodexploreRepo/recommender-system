@@ -43,10 +43,12 @@
 - Qualifying set: 1.4 million ratings for quiz set and 1.4 million ratings for test set
 
 <img width="1216" alt="Screenshot 2022-04-21 at 19 54 44" src="https://user-images.githubusercontent.com/64508435/164452794-7ac44f05-9941-4761-b9c1-5f408922c3a6.png">
-
+- Find a vector U (item)  & V (item). 
+  - Each row of U represents a user vector with k dimension
+  - Each column of V represents a item vector with k dimension  
 - Example: Rank-2 Matrix Factorization
 
-![IMG_8A95FD52123F-1](https://user-images.githubusercontent.com/64508435/164453629-6b0a2909-69ac-4c1a-a567-8e09b85129bc.jpeg)
+![IMG_CFE2978F0B91-1](https://user-images.githubusercontent.com/64508435/164461463-659d428b-8ed8-4ac6-ba23-7685e876ac6c.jpeg)
 
 ## 3.1. Estimating Latent Factors
 - Minimize loss function:
@@ -74,3 +76,13 @@
 ![IMG_477F178B2855-1](https://user-images.githubusercontent.com/64508435/164457193-a7bfe723-a7b7-4058-b868-18c3cd1a079f.jpeg)
 ![IMG_8E352F42E671-1](https://user-images.githubusercontent.com/64508435/164457212-bcd59e63-31fc-4c48-bf17-56429d127775.jpeg)
 
+# 4. VARIANTS
+- Constraining the latent factors of matrix factorization models
+## 4.1. SVD as Matrix Factorization with Orthnonormality constraints
+![IMG_AD5909BF69EF-1](https://user-images.githubusercontent.com/64508435/164462212-39131d0f-f365-4b85-8df2-6ea0e338a1c9.jpeg)
+
+## 4.2. Non-negative Matrix Factorization (NMF)
+- The observations are non-negative
+
+### 4.2.1. Sum-of-Parts Interpretation
+![IMG_9BFDC4732714-1](https://user-images.githubusercontent.com/64508435/164463050-a94c2b7e-51b6-4573-ac5c-0b5cab0e70dc.jpeg)
