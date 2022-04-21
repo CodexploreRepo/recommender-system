@@ -62,7 +62,7 @@
 - Constraining the complexity of models to avoid overfitting
 - Allow the regularization term to be raised to different powers q:
 ![IMG_DF70DE636022-1](https://user-images.githubusercontent.com/64508435/164456339-c458878a-cd3b-46fa-80af-a9b566335f5f.jpeg)
-
+- Use regularization to prevent overfitting, but sometimes too much regularization will end up under fitting. Need to fine tune.
 - Due to sparsity, some users or items may have very few ratings
 - To prevent overfitting, we can introduce regularization:
 - ![IMG_AEF925E5F7D5-1](https://user-images.githubusercontent.com/64508435/164456693-87ed6f1b-264b-41ac-9015-8c572c25efd5.jpeg)
@@ -86,3 +86,14 @@
 
 ### 4.2.1. Sum-of-Parts Interpretation
 ![IMG_9BFDC4732714-1](https://user-images.githubusercontent.com/64508435/164463050-a94c2b7e-51b6-4573-ac5c-0b5cab0e70dc.jpeg)
+
+
+- What are singular values? 
+  - Ans: lambda values in the sigma matrix, ordered by the magnitude 
+- How many of them are there?
+– What is the effect of the number of latent factors 𝑘 on the RMSE of matrix factorization (MF)?
+– Is there such a thing as too much regularization? Why?
+– Is there an equivalent concept to MF bias terms in neighborhood-based collaborative filtering? What are the similarities or differences?
+– Do we expect non-negative MF to achieve better RMSE than MF? Why?
+– How does non-negativity affect interpretability in terms of: • visualizingthefactors
+• identifyingclusters
