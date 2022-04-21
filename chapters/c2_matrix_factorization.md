@@ -83,7 +83,7 @@
 
 ## 4.2. Non-negative Matrix Factorization (NMF)
 - The observations are non-negative
-
+- Similar to MF, but Add the constraint that the value must be non-negative as the training data are non-negative
 ### 4.2.1. Sum-of-Parts Interpretation
 ![IMG_9BFDC4732714-1](https://user-images.githubusercontent.com/64508435/164463050-a94c2b7e-51b6-4573-ac5c-0b5cab0e70dc.jpeg)
 
