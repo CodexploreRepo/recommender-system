@@ -9,3 +9,8 @@
 ### Adoption
 
 ### Confidence
+
+
+- Previously, for normal MF, we only cares rating, or dont have rating, not like 0.
+- But WMF, we add 0 for empty cell into the loss function.
+- a should be higher than b
