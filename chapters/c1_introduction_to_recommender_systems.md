@@ -6,7 +6,7 @@
 - [1. Concepts](#1-concepts)
   - [1.1. Explicit vs Implicit Feedback](#11-explicit-vs-implicit-feedback)
   - [1.2. Problem Formulation](#12-problem-formulation)
-  - [1.3. How to solve the problem ?](#13-how-to-solve-the-problem)
+  - [1.3. How to solve the problem ? Collaborative & Content-Based Filtering](#13-how-to-solve-the-problem)
   - [1.4. Multimodality](#14-multimodality)
   - [1.5. Methodology: algorithm to solve the problem](#15-methodology)
     - [1.5.1. Memory-Based](#151-memory-based) 
