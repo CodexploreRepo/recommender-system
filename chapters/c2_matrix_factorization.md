@@ -4,11 +4,11 @@
 # Table of contents
 - [Table of contents](#table-of-contents)
 - [1. Matrix Representation of Rating Data](#1-matrix-representation-of-rating-data)
-- [2. Matrix Completion](#2-matrix-completion)
-  - [2.1. Singular Value Decomposition](#21-singular-value-decomposition) 
-    - [2.1.1. How to perform SVD](#211-how-to-perform-svd) 
-    - [2.1.2. Truncated SVD](#212-truncated-svd)
-    - [2.1.3. Problem with SVD](#213-problem-with-svd)
+  - [1.1. Matrix Completion](#11-matrix-completion)
+- [2. Singular Value Decomposition (SVD)](#2-singular-value-decomposition) 
+  - [2.1. How to perform SVD](#21-how-to-perform-svd) 
+  - [2.2. Truncated SVD](#22-truncated-svd)
+  - [2.3. Problem with SVD](#23-problem-with-svd)
 - [3. Matrix Factorization](#3-matrix-factorization)
   - [3.1. Estimating Latent Factors](#31-estimating-latent-factors) 
   - [3.2. Enhancement with Regularization](#32-enhancement-with-regularization)
@@ -24,13 +24,13 @@
 
 [(Back to top)](#table-of-contents)
 
-## 2. Matrix Completion
+## 1.1. Matrix Completion
 - **Goal**: Find the ratings that currently not being observed
 - Commonly formulated as finding a low-rank decomposition of the matrix
 <img width="600" alt="Screenshot 2022-04-21 at 19 30 41" src="https://user-images.githubusercontent.com/64508435/164448994-46dc8c7e-02e6-4ac5-b0ea-807bae5a0ba1.png">
 
 
-## 2.1. Singular Value Decomposition
+# 2. Singular Value Decomposition
 - Classical way to decompose (factorize) a matrix
 - **Rank of the Matrix**: dimensionality
   -  Say, for Matrix X, every users has a vector representation of M (items) dimensions, so the User Matrix X has `Rank = M`
@@ -44,10 +44,10 @@
   - For Users, we did not reduce the dimension, still M
   - For Items, we used the dimension to M, instead of N.
 
-### 2.1.1. How to perform SVD
+## 2.1. How to perform SVD
 <img src="https://user-images.githubusercontent.com/64508435/164450077-cdc5d277-cab9-4da2-a5b0-1e0cd876c7bd.jpeg" width="600" />
 
-### 2.1.2. Truncated SVD
+## 2.2. Truncated SVD
 - The eigenvalues of the covariance matrix (by extension also the singular values of SVD) would decay fast
 - We can thus “truncate” the singular vectors and the singular values to approximate 𝑿 with fewer parameters
 - Truncated SVD: lower the rank (dimensionality) from M to K, where K << M. 
@@ -57,7 +57,7 @@
   <br> Lower Rank Approximation
 </p>
 
-### 2.1.3. Problem with SVD
+## 2.3. Problem with SVD
 - Problem: SVD only can work on fully-specified matrix (not the spare matrix like our problem)
 - Solution: Matrix Completion
 
