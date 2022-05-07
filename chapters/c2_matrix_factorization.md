@@ -12,6 +12,7 @@
 - [3. Matrix Factorization](#3-matrix-factorization)
   - [3.1. Estimating Latent Factors](#31-estimating-latent-factors) 
   - [3.2. Enhancement with Regularization](#32-enhancement-with-regularization)
+  - [3.3. User and Item Biases](#33-user-and-item-biases)
 - [4. Variants](#4-variants)
   - [4.1. Orthnonormality SVD ](#41-orthnonormality-svd) 
   - [4.2. Non-negative Matrix Factorization (NMF)](#42-non-negative-matrix-factorization)
