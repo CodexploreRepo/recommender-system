@@ -22,13 +22,12 @@
   <img src="https://user-images.githubusercontent.com/64508435/164448804-3430ba28-72ec-4f22-92cd-33e48ea1dbf6.jpeg" width="800" />
 </p>
 
-[(Back to top)](#table-of-contents)
-
 ## 1.1. Matrix Completion
 - **Goal**: Find the ratings that currently not being observed
 - Commonly formulated as finding a low-rank decomposition of the matrix
 <img width="600" alt="Screenshot 2022-04-21 at 19 30 41" src="https://user-images.githubusercontent.com/64508435/164448994-46dc8c7e-02e6-4ac5-b0ea-807bae5a0ba1.png">
 
+[(Back to top)](#table-of-contents)
 
 # 2. Singular Value Decomposition
 - Classical way to decompose (factorize) a matrix
@@ -66,6 +65,8 @@
 - Mean imputation: Estimate missing information with the mean of each row (or column)
 - **Pipeline**: `In-complete Matrix` &#8594; `Imputation` (filling Missing Values) &#8594; `Truncated SVD` (Match the values partially only) &#8594; `Complete Matrix` (Those missing value will be filled based on Trucated SVD)
 - **Problem**: Severe overfitting if the original matrix is sparse, not perfectly matched with original nature of the dataset.
+
+[(Back to top)](#table-of-contents)
 
 # 3. Matrix Factorization
 - **Case Study: Netflix Dataset** 
@@ -144,3 +145,5 @@
 - How does non-negativity affect interpretability in terms of: 
   - visualizing the factors
   - identifying clusters
+
+[(Back to top)](#table-of-contents)
