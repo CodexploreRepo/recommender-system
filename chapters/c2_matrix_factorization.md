@@ -11,7 +11,10 @@
     - [2.1.3. Problem with SVD](#213-problem-with-svd)
 - [3. Matrix Factorization](#3-matrix-factorization)
   - [3.1. Estimating Latent Factors](#31-estimating-latent-factors) 
-
+  - [3.2. Enhancement with Regularization](#32-enhancement-with-regularization)
+- [4. Variants](#4-variants)
+  - [4.1. Orthnonormality SVD ](#41-orthnonormality-svd) 
+  - [4.2. Non-negative Matrix Factorization (NMF)](#42-non-negative-matrix-factorization)
 
 # 1. Matrix Representation of Rating Data
 - Sparse Matrix: there are a lot of missing values
@@ -20,6 +23,7 @@
 </p>
 
 [(Back to top)](#table-of-contents)
+
 ## 2. Matrix Completion
 - **Goal**: Find the ratings that currently not being observed
 - Commonly formulated as finding a low-rank decomposition of the matrix
@@ -83,21 +87,23 @@
 
 ## 3.1. Estimating Latent Factors
 - **Latent Factor**: a factor that is not observed, but extracted from the observed matrix.
-- Minimize loss function:
-- Key Ideas: only calculate the loss based on the ratings seen (Not the entire matrix like SVD)
-- Intuiation: if user  i and item j are similar (or having the same k-value), we will achieve a higher dot product (14 vs 10) in below example.
+- **Minimize loss function**:
+  - Key Ideas: only calculate the loss based on the ratings seen (Not the entire matrix like SVD)
+  - Intuiation: if user  i and item j are similar (or having the same k-value), we will achieve a higher dot product (14 vs 10) in below example.
+<p align="center"><img width="800" alt="Screenshot 2022-04-21 at 19 54 44" src="https://user-images.githubusercontent.com/64508435/164455436-677c32f3-f333-4167-9e83-06b8484a0720.jpeg"></p>
 
-![IMG_5EE3A720973B-1](https://user-images.githubusercontent.com/64508435/164455436-677c32f3-f333-4167-9e83-06b8484a0720.jpeg)
 
-## 3.2. ENHANCEMENTS
+## 3.2. Enhancement with Regularization
 - Improving the generalization performance of the model
 - Constraining the complexity of models to avoid overfitting
 - Allow the regularization term to be raised to different powers q:
-![IMG_DF70DE636022-1](https://user-images.githubusercontent.com/64508435/164456339-c458878a-cd3b-46fa-80af-a9b566335f5f.jpeg)
+  - The larger the q (say q=4 vs q=0.5), the more uniform (high values in all dimension) the element of vector is 
+<p align="center"><img width="800" alt="Screenshot 2022-04-21 at 19 54 44" src="https://user-images.githubusercontent.com/64508435/164456339-c458878a-cd3b-46fa-80af-a9b566335f5f.jpeg"></p>
+
 - Use regularization to prevent overfitting, but sometimes too much regularization will end up under fitting. Need to fine tune.
 - Due to sparsity, some users or items may have very few ratings
 - To prevent overfitting, we can introduce regularization:
-- ![IMG_AEF925E5F7D5-1](https://user-images.githubusercontent.com/64508435/164456693-87ed6f1b-264b-41ac-9015-8c572c25efd5.jpeg)
+<p align="center"><img width="800" alt="Screenshot 2022-04-21 at 19 54 44" src="https://user-images.githubusercontent.com/64508435/167247785-440ac021-0e28-4850-9a76-3e4fcc60e45e.jpeg"></p>
 
 ## 3.3. User and Item Biases
 - Users have different ranges of ratings
@@ -105,27 +111,36 @@
 - Items differ in popularity or likeability
   - some have mainly high ratings, others mainly low
 - Introduce bias parameters:
-![IMG_477F178B2855-1](https://user-images.githubusercontent.com/64508435/164457193-a7bfe723-a7b7-4058-b868-18c3cd1a079f.jpeg)
-![IMG_8E352F42E671-1](https://user-images.githubusercontent.com/64508435/164457212-bcd59e63-31fc-4c48-bf17-56429d127775.jpeg)
+<p align="center"><img width="600" alt="Screenshot 2022-04-21 at 19 54 44" src="https://user-images.githubusercontent.com/64508435/164457193-a7bfe723-a7b7-4058-b868-18c3cd1a079f.jpeg">
+<img width="800" alt="Screenshot 2022-04-21 at 19 54 44" src="https://user-images.githubusercontent.com/64508435/164457212-bcd59e63-31fc-4c48-bf17-56429d127775.jpeg">
+</p>
 
-# 4. VARIANTS
+- Absorbing Bias Terms into the Latent Factors
+<img width="600" alt="Screenshot 2022-05-07 at 17 39 08" src="https://user-images.githubusercontent.com/64508435/167248677-5f1ce20f-f236-4efd-bbf6-cb5fa39636e0.png">
+
+[(Back to top)](#table-of-contents)
+
+# 4. Variants
 - Constraining the latent factors of matrix factorization models
-## 4.1. SVD as Matrix Factorization with Orthnonormality constraints
-![IMG_AD5909BF69EF-1](https://user-images.githubusercontent.com/64508435/164462212-39131d0f-f365-4b85-8df2-6ea0e338a1c9.jpeg)
+## 4.1. Orthnonormality SVD  
+- SVD can be seen as matrix factorization (Loss Function concept) with orthonormality constraints
+- Orthonormality constraints: each element vector in U must be orthogonal to each other, same for V.
+<img width="600" alt="Screenshot 2022-05-07 at 17 39 08" src="https://user-images.githubusercontent.com/64508435/164462212-39131d0f-f365-4b85-8df2-6ea0e338a1c9.jpeg">
 
-## 4.2. Non-negative Matrix Factorization (NMF)
-- The observations are non-negative
-- Similar to MF, but Add the constraint that the value must be non-negative as the training data are non-negative
+## 4.2. Non-negative Matrix Factorization
+- Similar to MF, but add the constraint that the value must be non-negative as the training data (observation) are non-negative
+<img width="700" alt="Screenshot 2022-05-07 at 17 39 08" src="https://user-images.githubusercontent.com/64508435/167249255-eb3b3cd0-6cde-4051-b0fc-e6f6ec6621aa.jpeg">
+
 ### 4.2.1. Sum-of-Parts Interpretation
-![IMG_9BFDC4732714-1](https://user-images.githubusercontent.com/64508435/164463050-a94c2b7e-51b6-4573-ac5c-0b5cab0e70dc.jpeg)
-
+<img width="700" alt="Screenshot 2022-05-07 at 17 39 08" src="https://user-images.githubusercontent.com/64508435/164463050-a94c2b7e-51b6-4573-ac5c-0b5cab0e70dc.jpeg">
 
 - What are singular values? 
   - Ans: lambda values in the sigma matrix, ordered by the magnitude 
 - How many of them are there?
-– What is the effect of the number of latent factors 𝑘 on the RMSE of matrix factorization (MF)?
-– Is there such a thing as too much regularization? Why?
-– Is there an equivalent concept to MF bias terms in neighborhood-based collaborative filtering? What are the similarities or differences?
-– Do we expect non-negative MF to achieve better RMSE than MF? Why?
-– How does non-negativity affect interpretability in terms of: • visualizingthefactors
-• identifyingclusters
+- What is the effect of the number of latent factors 𝑘 on the RMSE of matrix factorization (MF)?
+- Is there such a thing as too much regularization? Why?
+- Is there an equivalent concept to MF bias terms in neighborhood-based collaborative filtering? What are the similarities or differences?
+- Do we expect non-negative MF to achieve better RMSE than MF? Why?
+- How does non-negativity affect interpretability in terms of: 
+  - visualizing the factors
+  - identifying clusters
