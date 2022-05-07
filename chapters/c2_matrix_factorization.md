@@ -10,6 +10,7 @@
     - [2.1.2. Truncated SVD](#212-truncated-svd)
     - [2.1.3. Problem with SVD](#213-problem-with-svd)
 - [3. Matrix Factorization](#3-matrix-factorization)
+  - [3.1. Estimating Latent Factors](#31-estimating-latent-factors) 
 
 
 # 1. Matrix Representation of Rating Data
@@ -63,24 +64,25 @@
 - **Problem**: Severe overfitting if the original matrix is sparse, not perfectly matched with original nature of the dataset.
 
 # 3. Matrix Factorization
-- **Matrix Factorization**: another method to decomposing a sparse matrix
-- Netflix Dataset: 
+- **Case Study: Netflix Dataset** 
   - Training set:
     - ~100 million ratings
     - ~480,000 anonymous customers
     - 17,770 movies
     - Each movie being rated on a scale of 1 to 5 stars
   - Qualifying set: 1.4 million ratings for quiz set and 1.4 million ratings for test set
-<img width="600" alt="Screenshot 2022-04-21 at 19 54 44" src="https://user-images.githubusercontent.com/64508435/164452794-7ac44f05-9941-4761-b9c1-5f408922c3a6.png">
+  - Quote from winning Team: Our winning entries consist of more than 100 different predictor sets, the majority of which are **factorization** models 
+<p align="center"><img width="600" alt="Screenshot 2022-04-21 at 19 54 44" src="https://user-images.githubusercontent.com/64508435/164452794-7ac44f05-9941-4761-b9c1-5f408922c3a6.png"></p>
 
+- **Matrix Factorization**: another method to decomposing a sparse matrix or filling missing values within the matrix
 - Find a vector U (item)  & V (item). 
   - Each row of U represents a user vector with k dimension
   - Each column of V represents a item vector with k dimension  
-- Example: Rank-2 Matrix Factorization
-
-![IMG_CFE2978F0B91-1](https://user-images.githubusercontent.com/64508435/164461463-659d428b-8ed8-4ac6-ba23-7685e876ac6c.jpeg)
+  - Example: Rank-2 Matrix Factorization
+<p align="center"><img width="800" alt="Screenshot 2022-04-21 at 19 54 44" src="https://user-images.githubusercontent.com/64508435/164461463-659d428b-8ed8-4ac6-ba23-7685e876ac6c.jpeg"></p>
 
 ## 3.1. Estimating Latent Factors
+- **Latent Factor**: a factor that is not observed, but extracted from the observed matrix.
 - Minimize loss function:
 - Key Ideas: only calculate the loss based on the ratings seen (Not the entire matrix like SVD)
 - Intuiation: if user  i and item j are similar (or having the same k-value), we will achieve a higher dot product (14 vs 10) in below example.
