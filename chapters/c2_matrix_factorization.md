@@ -11,6 +11,7 @@
   - [2.3. Problem with SVD](#23-problem-with-svd)
 - [3. Matrix Factorization](#3-matrix-factorization)
   - [3.1. Estimating Latent Factors](#31-estimating-latent-factors) 
+    - [3.1.1. Interpreting Latent Factors](#311-interpreting-latent-factors) 
   - [3.2. Enhancement with Regularization](#32-enhancement-with-regularization)
   - [3.3. User and Item Biases](#33-user-and-item-biases)
 - [4. Variants](#4-variants)
@@ -93,6 +94,18 @@
   - Key Ideas: only calculate the loss based on the ratings seen (Not the entire matrix like SVD)
   - Intuiation: if user  i and item j are similar (or having the same k-value), we will achieve a higher dot product (14 vs 10) in below example.
 <p align="center"><img width="800" alt="Screenshot 2022-04-21 at 19 54 44" src="https://user-images.githubusercontent.com/64508435/164455436-677c32f3-f333-4167-9e83-06b8484a0720.jpeg"></p>
+
+### 3.1.1. Interpreting Latent Factors
+- To gain a sense of the inner workings of matrix factorization techniques, let us see how the latent factors could give us some information about how items are associated with one another, as well as which items tend to be associated with a particular factor.
+- Note: **Dimension has the most information is the dimension that has the highest variance**
+  -  If a factor or dimension has higher variance, it is better at discriminating among different items. 
+  -  Conversely, if the variance of a factor is too small, it implies that most items would have a similar value for that factor.
+- Example 1: Latent dimensions across different users.
+<p align="center"><img width="800" alt="Screenshot 2022-04-21 at 19 54 44" src="https://user-images.githubusercontent.com/64508435/167255191-d7628b49-5c23-42a2-a4a8-25f8954ef747.jpeg"></p>
+
+- Example 2: the variance of each latent dimension across different items.
+  - In this case, the top dimension is dim 0 and dim 2. 
+<p align="center"><img width="500" alt="Screenshot 2022-04-21 at 19 54 44" src="https://user-images.githubusercontent.com/64508435/167255229-4453478d-206e-4ce3-8449-33fec6cce806.png"></p>
 
 
 ## 3.2. Enhancement with Regularization
