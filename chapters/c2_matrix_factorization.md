@@ -1,46 +1,74 @@
 # COLLABORATIVE FILTERING AS MATRIX COMPLETION
 
-# 2. Matrix Representation of Rating Data
 
-![IMG_284DAEA71AB1-1](https://user-images.githubusercontent.com/64508435/164448804-3430ba28-72ec-4f22-92cd-33e48ea1dbf6.jpeg)
+# Table of contents
+- [Table of contents](#table-of-contents)
+- [1. Matrix Representation of Rating Data](#1-matrix-representation-of-rating-data)
+- [2. Matrix Completion](#2-matrix-completion)
+  - [2.1. Singular Value Decomposition](#21-singular-value-decomposition) 
+    - [2.1.1. How to perform SVD](#211-how-to-perform-svd) 
+    - [2.1.2. Truncated SVD](#212-truncated-svd)
+    - [2.1.3. Problem with SVD](#213-problem-with-svd)
 
-## 2.1. Matrix Completion
-<img width="1216" alt="Screenshot 2022-04-21 at 19 30 41" src="https://user-images.githubusercontent.com/64508435/164448994-46dc8c7e-02e6-4ac5-b0ea-807bae5a0ba1.png">
+# 1. Matrix Representation of Rating Data
+- Sparse Matrix: there are a lot of missing values
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/64508435/164448804-3430ba28-72ec-4f22-92cd-33e48ea1dbf6.jpeg" width="800" />
+</p>
 
+[(Back to top)](#table-of-contents)
+## 2. Matrix Completion
+- **Goal**: Find the ratings that currently not being observed
 - Commonly formulated as finding a low-rank decomposition of the matrix
-
-## 2.2. Singular Value Decomposition
-- N (users) > M 
-![IMG_BCF099E76677-1](https://user-images.githubusercontent.com/64508435/164450477-2872eabd-c12e-4d02-8101-158b0698e292.jpeg)
+<img width="600" alt="Screenshot 2022-04-21 at 19 30 41" src="https://user-images.githubusercontent.com/64508435/164448994-46dc8c7e-02e6-4ac5-b0ea-807bae5a0ba1.png">
 
 
-![IMG_2D5A64A846A6-1](https://user-images.githubusercontent.com/64508435/164450077-cdc5d277-cab9-4da2-a5b0-1e0cd876c7bd.jpeg)
+## 2.1. Singular Value Decomposition
+- Classical way to decompose (factorize) a matrix
+- **Rank of the Matrix**: dimensionality
+  -  Say, for Matrix X, every users has a vector representation of M (items) dimensions, so the User Matrix X has `Rank = M`
+  -  Also, for Matrix X, every items has a vector representation of N (users) dimensions, so the Item Matrix X has `Rank = N`
+- Assume: N (users) > M (items)
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/64508435/167238911-105debd9-c636-42db-8b7c-2df68086ea35.jpeg" width="800" />
+</p>
 
+- Note:
+  - For Users, we did not reduce the dimension, still M
+  - For Items, we used the dimension to M, instead of N.
 
-### 2.2.1. Truncated SVD
-- Truncated SVD: lower the rank from M to K 
+### 2.1.1. How to perform SVD
+<img src="https://user-images.githubusercontent.com/64508435/164450077-cdc5d277-cab9-4da2-a5b0-1e0cd876c7bd.jpeg" width="600" />
+
+### 2.1.2. Truncated SVD
+- The eigenvalues of the covariance matrix (by extension also the singular values of SVD) would decay fast
+- We can thus “truncate” the singular vectors and the singular values to approximate 𝑿 with fewer parameters
+- Truncated SVD: lower the rank (dimensionality) from M to K, where K << M. 
+<img src="https://user-images.githubusercontent.com/64508435/167239197-2f2f9f33-1cef-4c7c-b901-ec0516f1e404.jpeg" width="800" />
 <p align="center">
   <img src="https://user-images.githubusercontent.com/64508435/164450889-20e0aa72-b806-4e2c-b966-abda5f8c1073.jpeg" width="800" />
   <br> Lower Rank Approximation
 </p>
 
-- Problem with SVD: SVD only can work on fully-specified matrix (not the spare matrix like our problem)
+### 2.1.3. Problem with SVD
+- Problem: SVD only can work on fully-specified matrix (not the spare matrix like our problem)
+- Solution: Matrix Completion
 
-### 2.2.2. SVD for Incomplete Matrix
-- In-complete Matrix &#8594; Imputation &#8594; Truncated SVD &#8594; Complete Matrix
-  - Zero-filling: Put zeros wherever missing observation
-  - Mean imputation: Estimate missing information with the mean of each row (or column)
-- Problem: Severe overfitting if the original matrix is sparse
+#### Matrix Completion for SVD
+- Zero-filling: Put zeros wherever missing observation
+- Mean imputation: Estimate missing information with the mean of each row (or column)
+- **Pipeline**: `In-complete Matrix` &#8594; `Imputation` (filling Missing Values) &#8594; `Truncated SVD` (Match the values partially only) &#8594; `Complete Matrix` (Those missing value will be filled based on Trucated SVD)
+- **Problem**: Severe overfitting if the original matrix is sparse, not perfectly matched with original nature of the dataset.
 
 # 3. Matrix Factorization
-- **Matrix Factorization**: Decomposing a sparse matrix
+- **Matrix Factorization**: another method to decomposing a sparse matrix
 - Netflix Dataset: 
-- Training set:
-  - ~100 million ratings
-  - ~480,000 anonymous customers
-  - 17,770 movies
-  - each movie being rated on a scale of 1 to 5 stars
-- Qualifying set: 1.4 million ratings for quiz set and 1.4 million ratings for test set
+  - Training set:
+    - ~100 million ratings
+    - ~480,000 anonymous customers
+    - 17,770 movies
+    - Each movie being rated on a scale of 1 to 5 stars
+  - Qualifying set: 1.4 million ratings for quiz set and 1.4 million ratings for test set
 
 <img width="1216" alt="Screenshot 2022-04-21 at 19 54 44" src="https://user-images.githubusercontent.com/64508435/164452794-7ac44f05-9941-4761-b9c1-5f408922c3a6.png">
 - Find a vector U (item)  & V (item). 
