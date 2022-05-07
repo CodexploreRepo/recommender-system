@@ -9,6 +9,8 @@
     - [2.1.1. How to perform SVD](#211-how-to-perform-svd) 
     - [2.1.2. Truncated SVD](#212-truncated-svd)
     - [2.1.3. Problem with SVD](#213-problem-with-svd)
+- [3. Matrix Factorization](#3-matrix-factorization)
+
 
 # 1. Matrix Representation of Rating Data
 - Sparse Matrix: there are a lot of missing values
@@ -69,8 +71,8 @@
     - 17,770 movies
     - Each movie being rated on a scale of 1 to 5 stars
   - Qualifying set: 1.4 million ratings for quiz set and 1.4 million ratings for test set
+<img width="600" alt="Screenshot 2022-04-21 at 19 54 44" src="https://user-images.githubusercontent.com/64508435/164452794-7ac44f05-9941-4761-b9c1-5f408922c3a6.png">
 
-<img width="1216" alt="Screenshot 2022-04-21 at 19 54 44" src="https://user-images.githubusercontent.com/64508435/164452794-7ac44f05-9941-4761-b9c1-5f408922c3a6.png">
 - Find a vector U (item)  & V (item). 
   - Each row of U represents a user vector with k dimension
   - Each column of V represents a item vector with k dimension  
