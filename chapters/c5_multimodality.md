@@ -35,7 +35,8 @@
 
 # Cornac-Supported Graph-Based Models
 - User network:
-  - Social Recommendation using PMF (SoRec)
+  - Social Recommendation using PMF, SoRec
+    - PMF is only for User-Item MF, not include User Graph, but it is a based for SoRec (SoRec in-cooperate with User Graph) 
   - Social Bayesian Personalized Ranking (SBPR) 
 - Item network:
   - Collaborative Context Poisson Factorization (C2PF)
