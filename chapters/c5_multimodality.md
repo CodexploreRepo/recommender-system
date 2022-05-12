@@ -42,3 +42,20 @@
   - Collaborative Context Poisson Factorization (C2PF)
   - Probabilistic Collaborative Representation Learning (PCRL)
   - Matrix Co-Factorization (MCF)
+
+# Text Document and Topics
+
+<img width="1221" alt="Screenshot 2022-05-12 at 20 45 50" src="https://user-images.githubusercontent.com/64508435/168077751-fb5b8ce2-1c92-425e-becd-bc528e2eba27.png">
+
+- A document of many words may discuss a relatively small number of “topics”
+- A topic can be described by a series of words that frequently co-occur with one another
+
+# Collaborative Topic Regression (CTR)
+- Combines weighted matrix factorization and topic model (LDA)
+- Each Item j has:
+  - Text Content: in terms of topic
+  - Rating:  Latent Factor 
+<img width="1221" alt="Screenshot 2022-05-12 at 20 50 48" src="https://user-images.githubusercontent.com/64508435/168078691-7442130b-509c-404d-bdc8-119361bd77a3.png">
+
+## CTR: Generative Process
+
