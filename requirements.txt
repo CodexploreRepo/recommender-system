@@ -1,0 +1,3 @@
+lightfm
+pandas
+scikit-learn
