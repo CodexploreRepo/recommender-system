@@ -1,3 +1,4 @@
 lightfm
 pandas
 scikit-learn
+tabulate
