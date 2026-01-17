@@ -2,3 +2,4 @@ lightfm
 pandas
 scikit-learn
 tabulate
+implicit
