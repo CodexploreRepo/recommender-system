@@ -1,5 +1,38 @@
 # Today I Learn
 
+## Day 5
+
+### Torch Operations
+
+- `dim=-1` means concatenate along the last dimension of the tensors.
+
+```Python
+import torch
+
+# Batch of 3 users/items, each with 4-dimensional embeddings
+user_embed = torch.tensor([
+    [0.1, 0.2, 0.3, 0.4],  # user 0
+    [0.5, 0.6, 0.7, 0.8],  # user 1
+    [0.9, 1.0, 1.1, 1.2],  # user 2
+])  # Shape: (3, 4)
+
+item_embed = torch.tensor([
+    [1.0, 1.1, 1.2, 1.3],  # item 0
+    [1.4, 1.5, 1.6, 1.7],  # item 1
+    [1.8, 1.9, 2.0, 2.1],  # item 2
+])  # Shape: (3, 4)
+
+concat = torch.cat([user_embed, item_embed], dim=-1)
+# Shape: (3, 4+4) - concatenated along the embedding dimension
+```
+
+- `dim=0`
+
+```Python
+torch.cat([user_embed, item_embed], dim=0)
+# Shape: (6, 4)
+```
+
 ## Day 4
 
 ### PCA (Principal Component Analysis)
@@ -945,6 +978,21 @@ input_ids = [0] * 2 + [3, 7, 2]  # = [0, 0, 3, 7, 2]
 ## Day 1
 
 ### Linear Algebra
+
+#### Element-wise
+
+- `user_embed * item_embed` (Element-wise Product)
+
+```Python
+# If user_embed and item_embed are both shape (batch_size, embed_dim)
+# Result: (batch_size, embed_dim)
+
+user_embed = [0.1, 0.2, 0.3, 0.4]
+item_embed = [0.5, 0.6, 0.7, 0.8]
+result     = [0.1*0.05, 0.12, 0.21, 0.32]  # Same dimension, multiplied position-wise
+```
+
+- Preserves dimensionality - output has same shape as inputs
 
 #### Dot Product & Cosine Similarity
 
