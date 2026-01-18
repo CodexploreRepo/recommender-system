@@ -13,16 +13,19 @@
 #### How PCA Works
 
 **Step 1: Center the Data**
+
 ```python
 X_centered = X - X.mean(axis=0)  # Subtract mean from each dimension
 ```
 
 **Step 2: Compute Covariance Matrix**
+
 ```python
 C = (1/n) × X_centered^T × X_centered  # Shows how dimensions vary together
 ```
 
 **Step 3: Find Eigenvectors and Eigenvalues**
+
 ```python
 eigenvalues, eigenvectors = np.linalg.eig(C)
 # eigenvectors = directions in original space
@@ -30,11 +33,13 @@ eigenvalues, eigenvectors = np.linalg.eig(C)
 ```
 
 **Step 4: Sort by Eigenvalue**
+
 - Eigenvectors sorted by eigenvalue (descending)
 - PC1 = direction with MOST variance
 - PC2 = direction with 2nd most variance (perpendicular to PC1)
 
 **Step 5: Project Data**
+
 ```python
 # Select top k eigenvectors
 PC_matrix = eigenvectors[:, :k]
@@ -59,10 +64,12 @@ PC1 = w₁·factor₀ + w₂·factor₁ + ... + wₙ·factorₙ
 #### Variance Explained
 
 **What is variance?**
+
 - Measures how spread out data is along a direction
 - Higher variance = more information captured
 
 **Calculation:**
+
 ```python
 variance_pc1 = np.var(X_pca[:, 0])
 total_variance = np.sum(np.var(X, axis=0))
@@ -70,16 +77,17 @@ pc1_percentage = variance_pc1 / total_variance
 ```
 
 **Example:** PC1 = 11.7%, PC2 = 2.5%
+
 - Total preserved in 2D = 14.2%
 - Remaining 85.8% lost (in other dimensions)
 
 **Typical PC1+PC2 variance by data type:**
 
-| Data Type | PC1+PC2 | Reason |
-|-----------|---------|--------|
-| Face images | 60-80% | Dominated by lighting, pose |
-| Word2Vec/ALS embeddings | 10-25% | Distributed representations |
-| Random vectors | ~3% | No structure |
+| Data Type               | PC1+PC2 | Reason                      |
+| ----------------------- | ------- | --------------------------- |
+| Face images             | 60-80%  | Dominated by lighting, pose |
+| Word2Vec/ALS embeddings | 10-25%  | Distributed representations |
+| Random vectors          | ~3%     | No structure                |
 
 #### Why Learned Embeddings Have Low PC Variance
 
@@ -96,6 +104,7 @@ Low regularization  → some dims dominate → higher PC variance
 #### Linear vs Non-Linear Patterns
 
 **Linear (PCA can capture):**
+
 ```shell
 y = w₁·x₁ + w₂·x₂ + ... + wₙ·xₙ
     ↑
@@ -103,6 +112,7 @@ y = w₁·x₁ + w₂·x₂ + ... + wₙ·xₙ
 ```
 
 **Non-linear (PCA cannot capture):**
+
 ```shell
 y = x₁² + x₂²              # Squared terms
 y = x₁ · x₂                # Interaction
@@ -112,6 +122,7 @@ y = exp(x₁)                # Exponential
 ```
 
 **Visual example:**
+
 ```shell
 Linear pattern:            Non-linear pattern:
   x₂                         x₂
@@ -127,25 +138,28 @@ Linear pattern:            Non-linear pattern:
 
 #### When to Use PCA vs Other Methods
 
-| Method | Type | Use Case |
-|--------|------|----------|
-| **PCA** | Linear | Quick, interpretable dimensionality reduction |
-| **t-SNE** | Non-linear | Visualization, finds clusters |
-| **UMAP** | Non-linear | Faster than t-SNE, preserves structure |
+| Method    | Type       | Use Case                                      |
+| --------- | ---------- | --------------------------------------------- |
+| **PCA**   | Linear     | Quick, interpretable dimensionality reduction |
+| **t-SNE** | Non-linear | Visualization, finds clusters                 |
+| **UMAP**  | Non-linear | Faster than t-SNE, preserves structure        |
 
 #### Interpreting PCA Results in ALS
 
 **Low variance (10-15%) is normal:**
+
 - ALS learns 64-dimensional embeddings
 - Information distributed across many dimensions
 - 2D projection loses most information
 
 **What PCs often capture:**
+
 - PC1: Popularity (mainstream vs niche)
 - PC2: Genre or content patterns
 - Remaining: Fine-grained collaborative patterns
 
 **Validation checks:**
+
 ```python
 # Check what PC1 represents
 correlation = np.corrcoef(X_pca[:, 0], item_popularity)[0,1]
@@ -160,13 +174,13 @@ print(np.cumsum(pca_full.explained_variance_ratio_))
 
 #### Summary
 
-| Concept | Meaning |
-|---------|---------|
-| **PCA** | Dimensionality reduction via linear projection |
-| **PC** | New axis capturing maximum variance |
-| **Variance %** | Information preserved in that dimension |
-| **Low variance** | Original data uses many dimensions equally |
-| **Linear only** | Cannot capture curved/complex patterns |
+| Concept          | Meaning                                        |
+| ---------------- | ---------------------------------------------- |
+| **PCA**          | Dimensionality reduction via linear projection |
+| **PC**           | New axis capturing maximum variance            |
+| **Variance %**   | Information preserved in that dimension        |
+| **Low variance** | Original data uses many dimensions equally     |
+| **Linear only**  | Cannot capture curved/complex patterns         |
 
 ### t-SNE (t-Distributed Stochastic Neighbor Embedding)
 
@@ -179,6 +193,7 @@ print(np.cumsum(pca_full.explained_variance_ratio_))
 #### How t-SNE Works
 
 **Step 1: Compute Pairwise Similarities in High Dimensions**
+
 ```python
 # For each pair of points i, j, compute probability that i picks j as neighbor
 # Uses Gaussian kernel centered at each point
@@ -186,18 +201,21 @@ p_ij = exp(-||x_i - x_j||² / 2σ²) / Σ_k exp(-||x_i - x_k||² / 2σ²)
 ```
 
 **Step 2: Initialize Low-Dimensional Embeddings**
+
 ```python
 # Randomly initialize 2D (or 3D) points
 Y = np.random.randn(n_samples, 2) * 0.01
 ```
 
 **Step 3: Compute Similarities in Low Dimensions**
+
 ```python
 # Use Student's t-distribution (heavy tails) instead of Gaussian
 q_ij = (1 + ||y_i - y_j||²)⁻¹ / Σ_k,l (1 + ||y_k - y_l||²)⁻¹
 ```
 
 **Step 4: Minimize KL Divergence**
+
 ```python
 # Make low-D similarities match high-D similarities
 KL(P||Q) = Σ_i,j p_ij log(p_ij / q_ij)
@@ -205,12 +223,14 @@ KL(P||Q) = Σ_i,j p_ij log(p_ij / q_ij)
 ```
 
 **Step 5: Iterate**
+
 - Repeat for typically 1000-5000 iterations
 - Points move to minimize cost function
 
 #### Key Parameters
 
 **perplexity** (most important)
+
 ```python
 # Controls neighborhood size (typical: 5-50)
 tsne = TSNE(perplexity=30)  # balanced
@@ -219,12 +239,14 @@ tsne = TSNE(perplexity=50)  # focuses on broader structure
 ```
 
 **n_iter** (number of iterations)
+
 ```python
 tsne = TSNE(n_iter=1000)   # default, often good enough
 tsne = TSNE(n_iter=5000)   # more stable, better convergence
 ```
 
 **learning_rate** and **random_state**
+
 ```python
 tsne = TSNE(
     learning_rate=200,     # default, can tune 10-1000
@@ -253,6 +275,7 @@ Best for:  linear patterns    Best for:  finding clusters
 #### Important Properties of t-SNE
 
 **1. Distances are NOT meaningful**
+
 ```shell
 # Only cluster structure matters
 Distance between points A-B vs C-D cannot be compared
@@ -260,6 +283,7 @@ Only use t-SNE to see: "Are these points clustered?"
 ```
 
 **2. Cluster sizes don't mean anything**
+
 ```shell
 Large cluster ≠ more points
 Small cluster ≠ fewer points
@@ -267,6 +291,7 @@ t-SNE can expand/contract clusters arbitrarily
 ```
 
 **3. Non-deterministic (unless random_state set)**
+
 ```python
 # Same data, different runs → different plots
 tsne1 = TSNE(random_state=42).fit_transform(X)  # reproducible ✓
@@ -274,6 +299,7 @@ tsne2 = TSNE().fit_transform(X)                 # different each run
 ```
 
 **4. Computationally expensive**
+
 ```python
 # O(n²) complexity
 # 1000 samples: ~seconds
@@ -283,15 +309,16 @@ tsne2 = TSNE().fit_transform(X)                 # different each run
 
 #### When to Use t-SNE vs Alternatives
 
-| Method | Speed | Use Case |
-|--------|-------|----------|
-| **PCA** | Very fast | Linear structure, interpretability, preprocessing |
-| **t-SNE** | Slow | Visualization, finding clusters in complex data |
-| **UMAP** | Fast | Like t-SNE but faster, better global structure |
+| Method    | Speed     | Use Case                                          |
+| --------- | --------- | ------------------------------------------------- |
+| **PCA**   | Very fast | Linear structure, interpretability, preprocessing |
+| **t-SNE** | Slow      | Visualization, finding clusters in complex data   |
+| **UMAP**  | Fast      | Like t-SNE but faster, better global structure    |
 
 #### Practical Usage
 
 **Basic usage:**
+
 ```python
 from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
@@ -307,6 +334,7 @@ plt.show()
 ```
 
 **Tuning perplexity:**
+
 ```python
 fig, axes = plt.subplots(1, 3, figsize=(15, 5))
 for i, perp in enumerate([5, 30, 50]):
@@ -317,6 +345,7 @@ for i, perp in enumerate([5, 30, 50]):
 ```
 
 **Coloring by metadata:**
+
 ```python
 # Color by popularity
 popularity = np.array(R_train.sum(axis=0)).flatten()
@@ -328,11 +357,13 @@ plt.colorbar(label='Popularity')
 #### Interpreting t-SNE for ALS Embeddings
 
 **Why ALS embeddings show "uniform blob":**
+
 - Collaborative filtering learns gradual patterns (not discrete clusters)
 - Users have overlapping preferences (no clear item categories)
 - Implicit feedback creates smooth transitions
 
 **What to look for:**
+
 ```python
 # Good signs:
 ✓ Similar items (same genre) cluster together
@@ -346,6 +377,7 @@ plt.colorbar(label='Popularity')
 ```
 
 **Validation:**
+
 ```python
 # Check if similar items are close in t-SNE space
 item1_idx = 42  # e.g., "Toy Story"
@@ -358,18 +390,21 @@ print(f"Items nearest to item {item1_idx}: {nearest}")
 #### Common Pitfalls
 
 **1. Over-interpreting distances**
+
 ```shell
 ❌ "These clusters are twice as far apart"
 ✓  "These items form distinct groups"
 ```
 
 **2. Comparing different runs**
+
 ```shell
 ❌ Using different random_state and comparing
 ✓  Always set random_state=42 for fair comparison
 ```
 
 **3. Using t-SNE for anything except visualization**
+
 ```shell
 ❌ Using t-SNE embeddings as features for ML
 ❌ Computing distances in t-SNE space
@@ -377,6 +412,7 @@ print(f"Items nearest to item {item1_idx}: {nearest}")
 ```
 
 **4. Wrong perplexity**
+
 ```shell
 Too low (perp=5):   Many tiny clusters (over-fragmented)
 Too high (perp=100): Everything merged (under-fragmented)
@@ -385,14 +421,14 @@ Good (perp=30):      Balanced, reveals true structure
 
 #### Summary
 
-| Concept | Meaning |
-|---------|---------|
-| **t-SNE** | Non-linear visualization via neighbor preservation |
-| **Perplexity** | Neighborhood size (tune 5-50) |
+| Concept               | Meaning                                                    |
+| --------------------- | ---------------------------------------------------------- |
+| **t-SNE**             | Non-linear visualization via neighbor preservation         |
+| **Perplexity**        | Neighborhood size (tune 5-50)                              |
 | **Non-deterministic** | Different runs → different plots (unless random_state set) |
-| **Local structure** | Preserves which points are neighbors |
-| **Distances** | NOT meaningful, only cluster membership matters |
-| **Speed** | O(n²), slow for large datasets |
+| **Local structure**   | Preserves which points are neighbors                       |
+| **Distances**         | NOT meaningful, only cluster membership matters            |
+| **Speed**             | O(n²), slow for large datasets                             |
 
 ## Day 3
 
@@ -514,6 +550,100 @@ Ranking 2: [✗, ✗, ✗, ✓, ✓]  — Bad! Relevant items buried
 
 Both might have similar AUC, but Ranking 1 is better for users.
 ```
+
+#### train_auc in BPR
+
+**What is train_auc?**
+
+- In BPR (Bayesian Personalized Ranking), `train_auc` measures how well the model ranks positive items above negative items during training
+- Specifically: `train_auc` = % of training triples where `score(user, positive_item) > score(user, negative_item)`
+
+**Example output:**
+
+```shell
+100%|██████████| 50/50 [train_auc=96.96%, skipped=22.80%]
+                            ↑                ↑
+                      96.96% correct      22.8% samples skipped
+                      pairwise rankings   (false negatives avoided)
+```
+
+**Interpretation Guidelines:**
+
+| train_auc  | Meaning              | Action                                    |
+| ---------- | -------------------- | ----------------------------------------- |
+| **95-99%** | ✓ Excellent learning | Model trained well                        |
+| **90-95%** | ~ Good learning      | Acceptable, validate on test              |
+| **80-90%** | ⚠ Weak learning      | Increase iterations or tune learning_rate |
+| **<80%**   | ✗ Poor learning      | Check data quality or hyperparameters     |
+
+**Why >90% is a common threshold:**
+
+- **Empirical observation**: Original BPR paper (Rendle et al., 2009) reported ~93-95% train_auc on MovieLens
+- **Community convention**: Papers and practitioners found train_auc >90% correlates with good test performance
+- **NOT a hard rule**: The threshold depends on dataset density:
+  ```
+  Dense datasets (Netflix, Spotify):  Expected 92-98%
+  Medium datasets (MovieLens):        Expected 90-97%
+  Sparse datasets (e-commerce, news): Expected 80-92%
+  ```
+
+**Better approach: Monitor convergence**
+
+```shell
+iterations=10  → train_auc=85.2%
+iterations=20  → train_auc=92.1%
+iterations=30  → train_auc=95.3%
+iterations=40  → train_auc=96.8%
+iterations=50  → train_auc=96.96% ← Converged (gain <0.5%)
+iterations=100 → train_auc=97.1%  ← Marginal improvement
+
+Stop when gains are <0.5% between iterations
+```
+
+**What affects train_auc:**
+
+1. **Iterations (epochs)**
+
+   ```python
+   iterations=10  → train_auc=75%  ❌ Under-trained
+   iterations=50  → train_auc=97%  ✓ Good
+   iterations=100 → train_auc=97.5% (marginal gains)
+   ```
+
+2. **Learning rate**
+
+   ```python
+   learning_rate=0.001 → train_auc=85%  ❌ Too slow
+   learning_rate=0.05  → train_auc=96%  ✓ Good
+   learning_rate=0.5   → train_auc=70%  ❌ Too high, unstable
+   ```
+
+3. **Regularization**
+   ```python
+   regularization=0.1  → train_auc=93%  ← More constraint
+   regularization=0.01 → train_auc=97%  ← Less constraint
+   ```
+
+**Important: train_auc ≠ final performance**
+
+```shell
+# Bad model (overfitting):
+train_auc = 99.5%  ← Very high! ✓
+test_ndcg = 0.045  ← Low! ✗
+→ Model memorized training data
+
+# Good model (generalization):
+train_auc = 94.2%  ← Lower
+test_ndcg = 0.069  ← Higher! ✓
+→ Better on unseen data
+```
+
+**Key takeaway:**
+
+- train_auc is a **training signal**, not the goal
+- Use it as a **sanity check**: <80% means training failed
+- **Always validate on test metrics** (NDCG@K, MAP@K) to judge real performance
+- Sweet spot: **95-98%** balances learning without overfitting
 
 ### ALS (Point-wise) vs BPR (Pair-wise)
 
@@ -866,6 +996,17 @@ print(csr.toarray())
 ```
 
 #### Spare Matrix Operations
+
+```Python
+# Create sparse matrix for training
+R_train = csr_matrix(
+    (
+        df_train["implicit"].values,
+        (df_train["uid"].values, df_train["iid"].values)
+    ),
+    shape=(n_users, n_items)
+)
+```
 
 - `csr[uid].indices` returns the column indices of the non‑zero entries in that row [uid].
 - `csr.sum(axis=0)`: sums each column of the user‑item matrix -> total interactions per item in the training set
